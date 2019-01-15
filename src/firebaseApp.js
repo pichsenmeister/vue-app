@@ -1,4 +1,7 @@
 import firebase from 'firebase/app'
+import 'firebase/auth'
+
+import Store from '@/store'
 
 const config = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
@@ -10,8 +13,49 @@ const config = {
 
 const FirebaseApp = firebase.initializeApp(config)
 
-console.log('Firebase Project ID:', FirebaseApp.options.projectId)
+FirebaseApp.signup = async (email, password) => {
+  try {
+    await firebase.auth().createUserWithEmailAndPassword(email, password)
+    let user = firebase.auth().currentUser
+    // user.sendEmailVerification()
 
-export default {
-  FirebaseApp: FirebaseApp
+    Store.commit('setUser', user)
+    return true
+  } catch (err) {
+    return err
+  }
 }
+
+FirebaseApp.signin = async (email, password) => {
+  try {
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+    let user = firebase.auth().currentUser
+
+    Store.commit('setUser', user)
+    return true
+  } catch (err) {
+    return err
+  }
+}
+
+FirebaseApp.signout = async () => {
+  try {
+    await firebase.auth().signOut()
+
+    Store.commit('setUser', null)
+    return true
+  } catch (err) {
+    return err
+  }
+}
+
+FirebaseApp.resetPassword = async (email) => {
+  try {
+    await firebase.auth().sendPasswordResetEmail(email)
+    return true
+  } catch (err) {
+    return err
+  }
+}
+
+export default FirebaseApp
