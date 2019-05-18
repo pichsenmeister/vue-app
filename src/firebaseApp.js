@@ -17,7 +17,7 @@ FirebaseApp.signup = async (email, password) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password)
     let user = firebase.auth().currentUser
-    // user.sendEmailVerification()
+    user.sendEmailVerification()
 
     Store.commit('setUser', user)
     return true

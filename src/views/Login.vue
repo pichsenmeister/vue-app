@@ -32,7 +32,7 @@
           </b-form-group>
           <b-button
             type="submit"
-            variant="primary">Submit</b-button>
+            variant="primary">Login</b-button>
         </b-form>
       </b-col>
     </b-row>
@@ -40,6 +40,13 @@
       <b-col class="text-center">
         <b-link to="/reset-password">
           <small>Reset Password</small>
+        </b-link>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col class="text-center">
+        <b-link to="/signup">
+          <small>Sign up</small>
         </b-link>
       </b-col>
     </b-row>
