@@ -6,7 +6,7 @@ import router from './router'
 import store from './store'
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import './firebaseApp'
+import FirebaseApp from './firebaseApp'
 
 Vue.config.productionTip = false
 
@@ -25,6 +25,7 @@ const init = () => {
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     store.commit('setUser', user)
+    FirebaseApp.init()
   } else {
     store.commit('setUser', null)
   }

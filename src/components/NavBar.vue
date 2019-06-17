@@ -2,27 +2,36 @@
   <b-navbar
     type="light"
     variant="light"
-    toggleable="md">
+    toggleable="md"
+  >
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-collapse
       id="nav_collapse"
-      is-nav>
+      is-nav
+    >
       <b-navbar-nav>
         <b-nav-item to="/">Home</b-nav-item>
         <b-nav-item to="/about">About</b-nav-item>
+        <b-nav-item
+          v-if="user"
+          to="/dashboard"
+        >Dashboard</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav
         v-if="!user"
-        class="ml-auto">
+        class="ml-auto"
+      >
         <b-nav-item to="/login">Login</b-nav-item>
         <b-nav-item to="/signup">Signup</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav
         v-else
-        class="ml-auto">
+        class="ml-auto"
+      >
         <b-nav-item-dropdown
           :text="user.email"
-          right>
+          right
+        >
           <b-dropdown-item @click="logout">
             Logout
           </b-dropdown-item>

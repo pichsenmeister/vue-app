@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 
 import Store from '@/store'
 
@@ -12,6 +13,10 @@ const config = {
 }
 
 const FirebaseApp = firebase.initializeApp(config)
+const firestore = firebase.firestore()
+const settings = { timestampsInSnapshots: true }
+firestore.settings(settings)
+FirebaseApp.db = firestore
 
 FirebaseApp.signup = async (email, password) => {
   try {
@@ -56,6 +61,17 @@ FirebaseApp.resetPassword = async (email) => {
   } catch (err) {
     return err
   }
+}
+
+FirebaseApp.init = () => {
+  FirebaseApp.db.collection('users').doc(Store.state.user.uid).collection('posts').onSnapshot(snapshot => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === 'added') {
+        console.log('doc added', change.doc.data())
+        Store.commit('addPost', change.doc)
+      }
+    })
+  })
 }
 
 export default FirebaseApp
